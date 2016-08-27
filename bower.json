@@ -1,0 +1,48 @@
+{
+  "name": "streamshot",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Alec and Pat"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/alecbenson/StreamShot",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^1.9.1",
+    "font-awesome": "fontawesome#^4.6.3",
+    "angular-material": "^1.0.9",
+    "angular": "^1.5.7",
+    "prettify-min": "^1.0.4"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "scss/font-awesome.scss"
+      ]
+    },
+    "angular-animate": {
+      "main": [
+        "angular-animate.min.js"
+      ]
+    },
+    "angular-aria": {
+      "main": [
+        "angular-aria.min.js"
+      ]
+    },
+    "angular-material": {
+      "main": [
+        "angular-material.min.js",
+        "angular-material.min.css"
+      ]
+    }
+  }
+}

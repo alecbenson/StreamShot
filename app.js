@@ -23,6 +23,8 @@ var server = app.listen(program.port, function () {
 	winston.log('info', 'Node process ' + process.pid +
 		' is listening on port ' + program.port);
 });
+//Socket IO
+var io = require('socket.io')(server);
 
 //Exit nicely on SIGTERM
 process.on('SIGTERM', function () {

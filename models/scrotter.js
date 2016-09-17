@@ -56,9 +56,19 @@ function generate_string_diffs(a, b) {
 function diff_from_index(a, b, start) {
 	var diffs = '';
 	var result = {}
+	var consecSame = 0;
 
 	var index = start;
-	while (a[index] != b[index]) {
+	// Under a worst case scenario, every other pixel is different.
+	// This would mean that a new key is created for every other index that stores every other pixel.
+	// To mitigate, we store the pixels in the diff as long as there are two different pixels or
+	// We se eight consecutive matching pixels.
+	while ((consecSame < 8 && diffs.length) || a[index] != b[index]) {
+		if(a[index] == b[index]) {
+			consecSame++;
+		} else {
+			consecSame = 0;
+		}
 		diffs += b[index];
 		index++;
 	}
@@ -68,6 +78,8 @@ function diff_from_index(a, b, start) {
 }
 
 function transform_image(oldData, diff, outname) {
+	var compression_ratio = (JSON.stringify(diff).length / oldData.length) * 100
+	console.log(compression_ratio);
 	var diffObjs = Object.keys(diff);
 	for (let change of diffObjs) {
 		spliceString(oldData, change, diff[change].length, diff[change])

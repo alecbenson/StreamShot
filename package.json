@@ -41,6 +41,7 @@
     "commander": "^2.9.0",
     "content-disposition": "^0.5.1",
     "express": "^4.13.4",
+    "natural": "^0.4.0",
     "nstall": "^0.2.0",
     "pug": "^2.0.0-beta3",
     "request": "^2.73.0",

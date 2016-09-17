@@ -9,7 +9,7 @@ var socket = require('../app').io;
 //Take a screenshot
 function takeScreenshot() {
 	return new BB(function (resolve, reject) {
-		var opts = ['dt.bmp', '--t', '25'];
+		var opts = ['dt.bmp', '--t', '50'];
 		var appDir = process.cwd();
 		var scrot = exec.spawn(path.join(appDir, 'bin', 'scrot'), opts);
 		scrot.on('close', function () {
@@ -32,7 +32,7 @@ function compare_images() {
 			var oldData = data.toString('base64');
 			takeScreenshot().then(function (newdata) {
 				var diffs = generate_string_diffs(oldData, newdata);
-				var compression_ratio = (JSON.stringify(diffs).length / oldData.length) * 100
+				var compression_ratio = (JSON.stringify(diffs).length / new Buffer(oldData, 'base64').length) * 100
 				console.log('Compression ratio: ' + compression_ratio);
 				resolve(diffs);
 			})
@@ -105,10 +105,19 @@ function saveUpdated(data, outname) {
 }
 */
 
-function transmit_bmp() {
+socket.on('connect', function() {
+	fs.readFile('dt-thumb.bmp', (err, data) => {
+		setTimeout(function() {
+			console.log('new connection!');
+			socket.emit('bmp', data.toString('base64'));
+		}, 100);
+	});
+})
+
+function transmit_diff() {
 	compare_images().then(function(diff) {
-		socket.emit('bmp', diff);
+		socket.emit('diff', diff);
 	});
 }
 
-setInterval(transmit_bmp, 1000);
+setInterval(transmit_diff, 1000);
